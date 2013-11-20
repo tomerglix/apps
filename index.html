@@ -35,9 +35,11 @@
                         
       var latlng = new google.maps.LatLng(lat, lng);
                         
-      geocoder.geocode({'latLng': latlng}, function(results, status) {
+      geocoder.geocode({'latLng': latlng}, function(results, status) 
+      {
         if (status == google.maps.GeocoderStatus.OK) {
-          if (results[0]) {
+          if (results[0]) 
+          {
             var arrAddress = results[0].address_components;
             // iterate through address_component array
             $.each(arrAddress, function (i, address_component) 
@@ -50,7 +52,7 @@
               	if(address_component.types[0] == "administrative_area_level_1")
 				{
 					// country
-					alert(administrative_area_level_1.long_name);
+					alert(address_component.long_name);
 				}
             });
           } else {
