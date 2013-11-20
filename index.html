@@ -1,104 +1,204 @@
 <!DOCTYPE html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" charset="UTF-8" src="cordova.js"></script>
+	<style>
+		.headerDecoration
+		{
+			color:#00CCFF;
+			font-size:20px;
+			border-bottom-style:solid;
+			border-bottom-color:#00CCFF;
+		}
+		.largeHeaderDecoration
+		{
+			color:#00CCFF;
+			line-height:0%;
+		}
+
+
+	</style>
+</head>
+
 <html>
-  <head>
-    <title>Capture Photo</title>
+	<body>
 
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8">
+		<form >
+			<div id="reportWrap" style="position: absolute; left: 0; top: 0; height: 100%; width: 100%;">
+				  <h1 class="largeHeaderDecoration"> Report Crime </h1>		
+                  <table style="border: 1px solid red; width: 100%;" style="border-spacing:50px;">
+                        <tr style="border: 1px solid blue;" valign="top" >
+                              <td style="border: 1px solid green;">
+                              		<div id="crimeType">
+                              			<div id="crimeTypeHeader">
+                              				<p  class="headerDecoration">Type</p>
+                              			</div>
+                              			<div id="crimeTypeSelection">
+											<select>
+												<option value="robbery">Robbery</option>
+												<option value="violence">Violence</option>
+												<option value="hijacking">Hijacking</option>
+												<option value="murder">Murder</option>
+												<option value="corruption">Corruption</option>
+												<option value="other">Other</option>
+											</select>
+                              			</div>
+                              		</div>
+                              </td>
+                        </tr>
+                        <tr style="border: 1px solid blue;" valign="top" >
+                              <td style="border: 1px solid green;">
+                              		<div id="crimeDescription">
+                              			<div id="crimeDescriptionHeader">
+                              				<p  class="headerDecoration">Description</p>
+                              			</div>
+                              			<div id="crimeDescriptionBox">
+                              				
+                              			</div>
+                              		</div>
+                              </td>
+                        </tr>
+                       	<tr style="border: 1px solid blue;" valign="top" >
+                              <td style="border: 1px solid green;">
+                              		<div id="crimeLocation">
+                              			<div id="crimeLocationHeader">
+                              				<p  class="headerDecoration">Location</p>
+                              			</div>
+                              			<div id="crimeLocationData">
+                              				
+                              			</div>
+                              		</div>
+                              </td>
+                        </tr>
+                       	<tr style="border: 1px solid blue;" valign="top" >
+                              <td style="border: 1px solid green;">
+                              		<div id="crimeDate">
+                              			<div id="crimeDateHeader">
+                              				<p  class="headerDecoration">Location</p>
+                              			</div>
+                              			<div id="crimeDateData">
+                              				
+                              			</div>
+                              		</div>
+                              </td>
+                        </tr>
+                        <tr style="border: 1px solid blue;" valign="top" >
+                              <td style="border: 1px solid green;">
+                              		<div id="crimePhotos">
+                              			<div id="crimePhotosHeader">
+                              				<p  class="headerDecoration">Photos</p>
+                              			</div>
+                              			<div id="crimePhotoAddButtons">
+                              				
+                              			</div>
+                              			<div id="photosSection">
+                              				
+                              			</div>
+                              		</div>
+                              </td>
+                        </tr>
+                  </table>
+                  <div id="submitReportButton">
+				  		<input type="submit" id="submitCrimeButton" class="submitButtonStyle" onclick="SubmitCrime()" style="width:100%;" />		<!--maybe return false is needed-->
+				  </div>
+			</div>
 
-    var pictureSource;   // picture source
-    var destinationType; // sets the format of returned value
+		</form>
 
-    // Wait for device API libraries to load
-    //
-    document.addEventListener("deviceready",onDeviceReady,false);
 
-    // device APIs are available
-    //
-    function onDeviceReady() {
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-    }
-
-    // Called when a photo is successfully retrieved
-    //
-    function onPhotoDataSuccess(imageData) {
-      // Uncomment to view the base64-encoded image data
-      // console.log(imageData);
-
-      // Get image handle
-      //
-      var smallImage = document.getElementById('smallImage');
-
-      // Unhide image elements
-      //
-      smallImage.style.display = 'block';
-
-      // Show the captured photo
-      // The inline CSS rules are used to resize the image
-      //
-      smallImage.src = "data:image/jpeg;base64," + imageData;
-    }
-
-    // Called when a photo is successfully retrieved
-    //
-    function onPhotoURISuccess(imageURI) {
-      // Uncomment to view the image file URI
-      // console.log(imageURI);
-
-      // Get image handle
-      //
-      var largeImage = document.getElementById('largeImage');
-
-      // Unhide image elements
-      //
-      largeImage.style.display = 'block';
-
-      // Show the captured photo
-      // The inline CSS rules are used to resize the image
-      //
-      largeImage.src = imageURI;
-    }
-
-    // A button will call this function
-    //
-    function capturePhoto() {
-      // Take picture using device camera and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
-        destinationType: destinationType.DATA_URL });
-    }
-
-    // A button will call this function
-    //
-    function capturePhotoEdit() {
-      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
-      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
-        destinationType: destinationType.DATA_URL });
-    }
-
-    // A button will call this function
-    //
-    function getPhoto(source) {
-      // Retrieve image file location from specified source
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
-        destinationType: destinationType.FILE_URI,
-        sourceType: source });
-    }
-
-    // Called if something bad happens.
-    //
-    function onFail(message) {
-      alert('Failed because: ' + message);
-    }
-
-    </script>
-  </head>
-  <body>
-    <button onclick="capturePhoto();">Capture Photo</button> <br>
-    <button onclick="capturePhotoEdit();">Capture Editable Photo</button> <br>
-    <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
-    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br>
-    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
-    <img style="display:none;" id="largeImage" src="" />
-  </body>
+	    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	    <script type="text/javascript" charset="utf-8">
+	
+	    var pictureSource;   // picture source
+	    var destinationType; // sets the format of returned value
+	
+	    // Wait for device API libraries to load
+	    //
+	    document.addEventListener("deviceready",onDeviceReady,false);
+	
+		function SubmitCrime()
+		{
+			
+		}
+	    // device APIs are available
+	    //
+	    function onDeviceReady() {
+	        pictureSource=navigator.camera.PictureSourceType;
+	        destinationType=navigator.camera.DestinationType;
+	    }
+	
+	    // Called when a photo is successfully retrieved
+	    //
+	    function onPhotoDataSuccess(imageData) {
+	      // Uncomment to view the base64-encoded image data
+	      // console.log(imageData);
+	
+	      // Get image handle
+	      //
+	      var smallImage = document.getElementById('smallImage');
+	
+	      // Unhide image elements
+	      //
+	      smallImage.style.display = 'block';
+	
+	      // Show the captured photo
+	      // The inline CSS rules are used to resize the image
+	      //
+	      smallImage.src = "data:image/jpeg;base64," + imageData;
+	    }
+	
+	    // Called when a photo is successfully retrieved
+	    //
+	    function onPhotoURISuccess(imageURI) {
+	      // Uncomment to view the image file URI
+	      // console.log(imageURI);
+	
+	      // Get image handle
+	      //
+	      var largeImage = document.getElementById('largeImage');
+	
+	      // Unhide image elements
+	      //
+	      largeImage.style.display = 'block';
+	
+	      // Show the captured photo
+	      // The inline CSS rules are used to resize the image
+	      //
+	      largeImage.src = imageURI;
+	    }
+	
+	    // A button will call this function
+	    //
+	    function capturePhoto() {
+	      // Take picture using device camera and retrieve image as base64-encoded string
+	      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,
+	        destinationType: destinationType.DATA_URL });
+	    }
+	
+	    // A button will call this function
+	    //
+	    function capturePhotoEdit() {
+	      // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+	      navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 20, allowEdit: true,
+	        destinationType: destinationType.DATA_URL });
+	    }
+	
+	    // A button will call this function
+	    //
+	    function getPhoto(source) {
+	      // Retrieve image file location from specified source
+	      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50,
+	        destinationType: destinationType.FILE_URI,
+	        sourceType: source });
+	    }
+	
+	    // Called if something bad happens.
+	    //
+	    function onFail(message) {
+	      alert('Failed because: ' + message);
+	    }
+	
+	    </script>
+	</body>
 </html>
