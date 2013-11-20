@@ -47,13 +47,14 @@
 	            if (address_component.types[0] == "locality") 
 	            {
 	                // city
-	            	alert(address_component.long_name);
+	            	var city = address_component.long_name;
 	            }
               	if(address_component.types[0] == "administrative_area_level_1")
 				{
 					// country
-					alert(address_component.long_name);
+					var country = address_component.long_name;
 				}
+				alert(city +", " + country);
             });
           } else {
             alert("No results found");
