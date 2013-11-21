@@ -1,98 +1,75 @@
 <!DOCTYPE html>
-<html> 
-<head> 
-  <meta name="viewport" content="width=device-width;height=device-height; user-scalable=no" /> 
-  <meta http-equiv="Content-type" content="text/html;charset=utf-8"> 
-  <title>PhoneGap Reverse Geolocation Lookup</title> 
-  <script type="text/javascript" src="cordova.js"></script> 
-  <script type="text/javascript" src="jquery-1.10.2.js"></script>
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>            
-            
-  <script type="text/javascript">
-    var geocoder;
-      
-    $(document).ready(function() {
-      geocoder = new google.maps.Geocoder();
-                      
-      $('#button-get-reverse-lookup').click(function(){
-        navigator.geolocation.getCurrentPosition(onGetCurrentPositionSuccess, onGetCurrentPositionError);
-      });
-    });
-          
-          var lat; 
-          var lng;        
-    var onGetCurrentPositionSuccess = function(position) 
-    {
-      console.log("lat: " + position.coords.latitude);
-      console.log("long: " + position.coords.longitude);
-      lat = parseFloat(position.coords.latitude);
-      lng = parseFloat(position.coords.longitude);
-                        
-      // paris, france - uncomment to test
-      //var lat = parseFloat(48.850258);
-      //var lng = parseFloat(2.351074);
-                        
-      // tiburon, california
-      //var lat = parseFloat(37.872685);
-      //var lng = parseFloat(-122.45224);
-                        
-      var latlng = new google.maps.LatLng(lat, lng);
-                        
-      geocoder.geocode({'latLng': latlng}, function(results, status) 
-      {
-        if (status == google.maps.GeocoderStatus.OK) 
-        {
-		      if (results[0]) 
-		      {
-		      	//browserSupportFlag = true;
-					var result = results[0];
-					//look for locality tag and administrative_area_level_1
-					var city = "";
-					var state = "";
-					for(var i=0, len=result.address_components.length; i<len; i++) 
-					{
-						var ac = result.address_components[i];
-						if(ac.types.indexOf("locality") >= 0) 
-						{
-							city = ac.long_name;
-						}
-						if(ac.types.indexOf("administrative_area_level_1") >= 0) 
-						{
-							state = ac.long_name;
-						}
-					}
-					alert(city + ", " +state);
-					
-		      }
-			  else 
-			  {
-				    alert("No results found");
-			  }
-        } 
-        else 
-        {
-          alert("Geocoder failed due to: " + status);
-        }
-      });
-      alert(lat+" " +lng);
-        var mapOptions={center: new google.maps.LatLng(lat,lng), zoom:15, mapTypeId:google.maps.MapTypeId.ROADMAP};
-    	var map = new google.maps.Map(document.getElementById("map"),mapOptions);
-    }
-    
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
-  
-    var onGetCurrentPositionError = function(error) 
-    { 
-      console.log("Couldn't get geo coords from device");
-    } 
-  </script> 
-</head> 
- 
-<body>
-  <h1>Reverse Geolocation Lookup</h1>
-  <button id="button-get-reverse-lookup">Get Reverse Lookup</button>
-  <div id="map">
-  	
-  </div>
-</body> 
-</html> 
+  </head>
+  <body>
+    <div id="map-canvas">
+    	<input type="submit" onclick="viewMap();  return false;" value="view map"  /><br/>
+    	<input type="submit" onclick="viewCoordinates();  return false;" value="view coordinates"  /><br/>
+    	<input type="submit" onclick="viewLocationOnMap();  return false;" value="view location on map"  />
+    </div>
+    
+        <script>
+		var map;
+		function viewMap() 
+		{
+			var mapOptions = 
+			{
+			    zoom: 8,
+				center: new google.maps.LatLng(-34.397, 150.644)
+			};
+			map = new google.maps.Map(document.getElementById('map-canvas'),
+			mapOptions);
+		}
+		function viewCoordinates()
+		{
+			navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}
+		function onSuccess(position) 
+	    {
+	    	alert(	"Coordinates:\n" +
+	    			"Latitude: "	+ position.coords.latitude 	+ "\n" +
+	    			"Longitude: "		+ position.coords.longitude);
+	    }
+	
+	    // onError Callback receives a PositionError object
+	    //
+	    function onError(error) 
+	    {
+	        alert(	'Sending location failed\n'	+
+	        		'code: '    + error.code    + '\n' +
+	              	'message: ' + error.message + '\n');
+	    }	
+		function viewLocationOnMap()
+		{
+			navigator.geolocation.getCurrentPosition(onSuccess1, onError);
+		}
+		function onSuccess1(position)
+		{
+			
+			var mapOptions = 
+			{
+			    zoom: 15,
+				center: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+				mapTypeId:google.maps.MapTypeId.ROADMAP
+			};
+			map = new google.maps.Map(document.getElementById('map-canvas'),
+			mapOptions);
+		}
+
+    </script>
+  </body>
+</html>
