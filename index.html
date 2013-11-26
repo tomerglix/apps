@@ -8,7 +8,7 @@
     function checkDateString() {
       navigator.globalization.dateToString(
         new Date(),
-        ShowDate(date),
+        function (date) {ShowDate(date);},
         function () {alert('Error getting dateString\n');},
         {formatLength:'short', selector:'date and time'}
       );
