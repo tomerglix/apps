@@ -8,10 +8,20 @@
     function checkDateString() {
       navigator.globalization.dateToString(
         new Date(),
-        function (date) {alert('date: ' + date.value + '\n');},
+        ShowDate(date),
         function () {alert('Error getting dateString\n');},
         {formatLength:'short', selector:'date and time'}
       );
+    }
+    
+	function ShowDate(date)
+    {
+    	alert(	"day: " + date.day + "\n" +
+    			"month: " + date.month + "\n" +
+    			"year: " + date.yead + "\n" +
+    			"hour: " +	date.hour + "\n" +
+    			"minute: " + date.minute     				
+    			);
     }
     </script>
   </head>
