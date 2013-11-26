@@ -8,11 +8,14 @@
     function checkDateString() 
     {
     	alert("1");
-    	navigator.globalization.dateToString(new Date(), ShowDate (date),DateError);
+    	try
+    	{
+    	navigator.globalization.dateToString(new Date(), ShowDate (date),DateError,{ formatLength: 'short', selector: 'date and time' });
+    	}
+    	catch (err){alert(err);}
     }
     function ShowDate(date)
     {
-    	alert("2");
     	alert(	"day: " + date.day + "\n" +
     			"month: " + date.month + "\n" +
     			"year: " + date.yead + "\n" +
