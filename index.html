@@ -7,10 +7,12 @@
 
     function checkDateString() 
     {
+    	alert("1");
     	navigator.globalization.dateToString(new Date(), ShowDate (date),DateError);
     }
     function ShowDate(date)
     {
+    	alert("2");
     	alert(	"day: " + date.day + "\n" +
     			"month: " + date.month + "\n" +
     			"year: " + date.yead + "\n" +
