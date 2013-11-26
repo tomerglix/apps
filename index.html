@@ -1,31 +1,17 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>Cordova</title>
+    <title>dateToString Example</title>
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8">
 
-    function checkDateString() 
-    {
-    	alert("1");
-    	try
-    	{
-    	navigator.globalization.dateToString(new Date(), ShowDate (date),DateError,{ formatLength: 'short', selector: 'date and time' });
-    	}
-    	catch (err){alert(err);}
-    }
-    function ShowDate(date)
-    {
-    	alert(	"day: " + date.day + "\n" +
-    			"month: " + date.month + "\n" +
-    			"year: " + date.yead + "\n" +
-    			"hour: " +	date.hour + "\n" +
-    			"minute: " + date.minute     				
-    			);
-    }
-    function DateError()
-    {
-    	alert('Error getting dateString\n');
+    function checkDateString() {
+      navigator.globalization.dateToString(
+        new Date(),
+        function (date) {alert('date: ' + date.value + '\n');},
+        function () {alert('Error getting dateString\n');},
+        {formatLength:'short', selector:'date and time'}
+      );
     }
     </script>
   </head>
